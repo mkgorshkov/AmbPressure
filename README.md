@@ -8,13 +8,13 @@ The tool takes in .TXR files from ambulatory blood pressure measurement devices 
 
 ### Usage
 
-User must compile the tool using the standard JAVA 7 compiler. Alternately, a precompiled version can be found in the folder /compiled
+User must compile the tool using the standard JAVA 8 compiler. Alternately, a precompiled version can be found in the folder /out/artifacts/AmbPressure-Jar/AmbPressure.jar
 
 ### License 
 
 MIT License
 
-Copyright (c) 2016 Maxim Gorshkov
+Copyright (c) 2020 Maxim Gorshkov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
