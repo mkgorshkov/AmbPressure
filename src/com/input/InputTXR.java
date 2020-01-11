@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class InputTXR {
 
 	File inFile;
-	String fName;
 
 	boolean firstWrite;
 
@@ -270,20 +269,4 @@ public class InputTXR {
 			}
 		}
 	}
-
-	// public static void main(String[] args) {
-	// String a =
-	// "C:\\Users\\Maxim\\Dropbox\\Database-Stella\\TXR Files\\Abdelkrim,Ouacel 1578058 2011-09-08 09.12.00.TXR";
-	//
-	// InputTXR b = new InputTXR(a);
-	// System.out.println(b.patientName);
-	// System.out.println(b.ID);
-	// System.out.println(b.hookupTime);
-	// //b.print();
-	// b.generateTime();
-	// b.prime24Hour();
-	// b.fitTimes();
-	// b.printFinalOutput();
-	// b.makeHeadings();
-	// }
 }
