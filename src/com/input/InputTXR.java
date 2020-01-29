@@ -1,10 +1,8 @@
 package com.input;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class InputTXR {
@@ -20,7 +18,7 @@ public class InputTXR {
 	String[] labels = { "Name", "ID", "Hookup Time", "Hour", "Minute",
 			"Systolic", "Diastolic", "MAP", "PP", "HR" };
 
-	Scanner inScan;
+	BufferedReader br;
 
 	ArrayList<String[]> fullData = new ArrayList<String[]>();
 	String[][] finalOutput = new String[112][8];
@@ -31,7 +29,11 @@ public class InputTXR {
 		inFile = f;
 		firstWrite = b;
 
-		getContents();
+		try {
+			getContents();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		for (int i = 0; i < 50; i++) {
 			removeErrors();
 		}
@@ -43,40 +45,59 @@ public class InputTXR {
 		}
 	}
 
-	private void getContents() {
+	private void getContents() throws IOException {
 		try {
-			inScan = new Scanner(inFile);
+			br = new BufferedReader(new FileReader(inFile));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		inScan.nextLine();
+		String totalInput = "";
+		String st;
+		while ((st = br.readLine()) != null) {
+			totalInput += st;
+			totalInput += "\n";
+		}
 
-		patientName = inScan.nextLine();
+		br.close();
+
+		ArrayList<Character> inputAsChar = new ArrayList<>();
+		for(char c : totalInput.toCharArray()){
+			inputAsChar.add(c);
+		}
+
+		inputAsChar.removeAll(Collections.singleton('\u0000'));
+
+		String normalizedInput = "";
+		for(Character c : inputAsChar){
+			normalizedInput += ""+c.toString();
+		}
+
+		ArrayList<String> lines = new ArrayList<>();
+		for(String s : normalizedInput.split(System.getProperty("line.separator"))){
+			lines.add(s);
+		}
+
+		patientName = lines.get(1);
 		String[] patientSplit = patientName.split(",");
 		patientName = patientSplit[0] + "; " + patientSplit[1];
 		String[] patientSplit2 = patientName.split(":");
 		patientName = patientSplit2[1];
 
-		ID = inScan.nextLine();
+		ID = lines.get(2);
 		String[] IDSplit = ID.split(":");
 		ID = IDSplit[1];
 
-		hookupTime = inScan.nextLine();
+		hookupTime = lines.get(3);
 		String[] hookupSplit = hookupTime.split(":");
 		hookupTime = hookupSplit[1];
 
-		inScan.nextLine();
-		inScan.nextLine(); // at the end here we should be at the raw data
-
-		while (inScan.hasNextLine()) {
-			String temp = inScan.nextLine();
+		for(int i = 6; i<lines.size(); i++){
+			String temp = lines.get(i);
 			String[] tempArray = temp.split(",");
 			fullData.add(tempArray);
 		}
-
-		inScan.close();
 	}
 
 	private void removeErrors() {
